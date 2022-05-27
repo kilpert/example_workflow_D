@@ -1,8 +1,8 @@
-results = "results"
+subdir = "subdir"
 
 
 def txt_output(wildcards):
-    return [f"{results}/D.txt"]
+    return [f"results/{subdir}/D.txt"]
 
 
 rule all:
@@ -12,7 +12,7 @@ rule all:
 
 rule txt:
     output:
-        "results/D.txt"
+        f"results/{subdir}/D.txt"
     shell:
         "echo 'D' "
         ">{output} "
