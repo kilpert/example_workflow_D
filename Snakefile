@@ -5,17 +5,13 @@ config = {
 }
 
 
-def get_annotation_output(wildcards):
-    return expand(
+rule all:
+    input:
+        expand(
             "results/{build}.{release}.gtf",
             build=config["build"],
             release=config["release"],
-    )
-
-
-rule all:
-    input:
-        get_annotation_output,
+        )
 
 
 rule get_annotation:
