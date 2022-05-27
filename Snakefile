@@ -1,20 +1,38 @@
-subdir = "subdir"
+config = {
+    "species": "homo_sapiens",
+    "build": "GRCh38",
+    "release": 106
+}
 
 
-def txt_output(wildcards):
-    return [f"results/{subdir}/D.txt"]
+def get_annotation_output(wildcards):
+    paths = []
+    
+    paths.extend(
+        expand(
+            "results/{build}.{release}.gtf",
+            build=config["build"],
+            release=config["release"],
+        )
+    )
+    
+    return paths
 
 
 rule all:
     input:
-        txt_output,
+        get_annotation_output,
 
 
-rule txt:
+rule get_annotation:
     output:
-        f"results/{subdir}/D.txt"
-    shell:
-        "echo 'D' "
-        ">{output} "
-
+        "results/{build}.{release}.gtf",
+    params:
+        species=config["species"],
+        release=config["release"],
+        build=config["build"],
+        flavor="",  # optional, e.g. chr_patch_hapl_scaff, see Ensembl FTP.
+    cache: True  # save space and time with between workflow caching (see docs)
+    wrapper:
+        "v1.4.0/bio/reference/ensembl-annotation"
 
