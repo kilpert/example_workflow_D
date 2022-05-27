@@ -1,7 +1,4 @@
-configfile: "config.yaml"
-
-
-results = config["results"]
+results = "results"
 
 
 def txt_output(wildcards):
